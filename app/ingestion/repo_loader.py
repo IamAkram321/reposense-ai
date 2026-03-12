@@ -29,6 +29,9 @@ IGNORED_FILES_PREFIX = [
     "webpack",
 ]
 
+# Maximum allowed file size (200 KB)
+MAX_FILE_SIZE = 200 * 1024
+
 
 def clone_repository(repo_url: str):
 
@@ -54,12 +57,12 @@ def load_code_files(repo_path):
 
     for root, dirs, files in os.walk(repo_path):
 
-        # prevent scanning useless directories
+        # Prevent scanning useless directories
         dirs[:] = [d for d in dirs if d not in IGNORED_DIRS]
 
         for file in files:
 
-            # ignore hidden / config files
+            # Ignore hidden/config files
             if any(file.startswith(prefix) for prefix in IGNORED_FILES_PREFIX):
                 continue
 
@@ -67,6 +70,10 @@ def load_code_files(repo_path):
                 continue
 
             file_path = os.path.join(root, file)
+
+            # Skip large files
+            if os.path.getsize(file_path) > MAX_FILE_SIZE:
+                continue
 
             try:
 
