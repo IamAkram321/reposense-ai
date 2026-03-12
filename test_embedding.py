@@ -11,6 +11,6 @@ print("Total documents:", len(documents))
 
 index, vectorizer = build_vector_store(documents)
 
-save_vector_store(index, vectorizer)
+save_vector_store(index, vectorizer, documents)
 
 print("Vector database created successfully!")
