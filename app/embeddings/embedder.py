@@ -1,4 +1,11 @@
-def chunk_code(content, chunk_size=500, overlap=50):
+import os
+import pickle
+from sklearn.feature_extraction.text import TfidfVectorizer
+import faiss
+import numpy as np
+
+
+def chunk_code(content, chunk_size=800, overlap=100):
 
     chunks = []
 
@@ -7,7 +14,6 @@ def chunk_code(content, chunk_size=500, overlap=50):
     while start < len(content):
 
         end = start + chunk_size
-
         chunk = content[start:end]
 
         chunks.append(chunk)
@@ -38,3 +44,30 @@ def prepare_documents(code_files):
             })
 
     return documents
+
+
+def build_vector_store(documents):
+
+    texts = [doc["content"] for doc in documents]
+
+    vectorizer = TfidfVectorizer(max_features=5000)
+
+    X = vectorizer.fit_transform(texts).toarray()
+
+    dimension = X.shape[1]
+
+    index = faiss.IndexFlatL2(dimension)
+
+    index.add(np.array(X).astype("float32"))
+
+    return index, vectorizer
+
+
+def save_vector_store(index, vectorizer):
+
+    os.makedirs("data/vector_db", exist_ok=True)
+
+    faiss.write_index(index, "data/vector_db/index.faiss")
+
+    with open("data/vector_db/vectorizer.pkl", "wb") as f:
+        pickle.dump(vectorizer, f)

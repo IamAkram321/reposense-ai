@@ -1,12 +1,7 @@
 from app.ingestion.repo_loader import load_code_files
+from app.embeddings.embedder import prepare_documents
 
-repo_path = "data/repos/react"
+files = load_code_files("data/repos/react")
+docs = prepare_documents(files)
 
-files = load_code_files(repo_path)
-
-print("Total files loaded:", len(files))
-
-print("\nExample file:\n")
-
-print(files[0]["path"])
-print(files[0]["content"][:200])
+print(len(docs))
