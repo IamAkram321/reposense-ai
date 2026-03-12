@@ -3,18 +3,45 @@ import git
 
 BASE_REPO_PATH = "data/repos"
 
-SUPPORTED_EXTENSIONS = [".py", ".js", ".ts", ".tsx", ".cpp", ".java"]
+SUPPORTED_EXTENSIONS = [
+    ".py",
+    ".js",
+    ".ts",
+    ".tsx",
+    ".cpp",
+    ".java",
+    ".go",
+    ".rs",
+]
+
+IGNORED_DIRS = [
+    "node_modules",
+    ".git",
+    "__pycache__",
+    "dist",
+    "build",
+    ".next",
+]
+
+IGNORED_FILES_PREFIX = [
+    ".",
+    "babel",
+    "webpack",
+]
 
 
 def clone_repository(repo_url: str):
 
     os.makedirs(BASE_REPO_PATH, exist_ok=True)
 
-    repo_name = repo_url.split("/")[-1]
+    repo_name = repo_url.rstrip("/").split("/")[-1]
+
     repo_path = os.path.join(BASE_REPO_PATH, repo_name)
 
     if os.path.exists(repo_path):
         return repo_path
+
+    print(f"Cloning repository: {repo_url}")
 
     git.Repo.clone_from(repo_url, repo_path)
 
@@ -28,24 +55,30 @@ def load_code_files(repo_path):
     for root, dirs, files in os.walk(repo_path):
 
         # prevent scanning useless directories
-        dirs[:] = [d for d in dirs if d not in ["node_modules", ".git", "__pycache__"]]
+        dirs[:] = [d for d in dirs if d not in IGNORED_DIRS]
 
         for file in files:
 
-            if any(file.endswith(ext) for ext in SUPPORTED_EXTENSIONS):
+            # ignore hidden / config files
+            if any(file.startswith(prefix) for prefix in IGNORED_FILES_PREFIX):
+                continue
 
-                file_path = os.path.join(root, file)
+            if not any(file.endswith(ext) for ext in SUPPORTED_EXTENSIONS):
+                continue
 
-                try:
-                    with open(file_path, "r", encoding="utf-8") as f:
-                        content = f.read()
+            file_path = os.path.join(root, file)
 
-                    code_files.append({
-                        "path": file_path,
-                        "content": content
-                    })
+            try:
 
-                except Exception:
-                    continue
+                with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
+                    content = f.read()
+
+                code_files.append({
+                    "path": file_path.replace("\\", "/"),
+                    "content": content
+                })
+
+            except Exception:
+                continue
 
     return code_files
