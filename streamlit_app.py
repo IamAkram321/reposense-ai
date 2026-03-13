@@ -13,21 +13,43 @@ repo_url = st.text_input(
     "https://github.com/pallets/flask"
 )
 
+st.markdown("### Quick Actions")
+
+col1, col2 = st.columns(2)
+
+with col1:
+    explain_arch = st.button("Explain Repository Architecture")
+
+with col2:
+    list_modules = st.button("List Main Modules")
+
 examples = [
-    "How does Flask routing work?",
-    "Where are routes defined?",
-    "Explain the architecture of this repo",
-    "How are requests handled?"
+    "How does request handling work?",
+    "How does routing work?",
+    "Where is authentication implemented?",
+    "Explain the architecture of this repository"
 ]
 
 selected_example = st.selectbox(
-    "Example questions (optional)",
+    "Example Questions",
     [""] + examples
 )
 
-user_input = st.chat_input("Ask your question")
+user_input = st.chat_input("Ask your own question")
 
-question = user_input if user_input else selected_example
+question = None
+
+if user_input:
+    question = user_input
+
+elif selected_example:
+    question = selected_example
+
+elif explain_arch:
+    question = "Explain the architecture of this repository and main components"
+
+elif list_modules:
+    question = "List the main modules of this repository and what they do"
 
 if question:
 
@@ -47,7 +69,7 @@ if question:
 
     st.chat_message("assistant").write(result["answer"])
 
-if "sources" in result:
-    st.markdown("### 📂 Sources")
-    for src in result["sources"]:
-        st.code(src)
+    if "sources" in result:
+        st.markdown("### 📂 Sources")
+        for src in result["sources"]:
+            st.code(src)

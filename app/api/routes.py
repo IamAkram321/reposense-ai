@@ -38,13 +38,11 @@ def ask_question(data: AskRequest):
 
     repo_name = get_repo_name(repo_url)
 
-    # repo specific vector db folder
     vector_db_path = f"data/vector_db/{repo_name}"
 
-    # clone repo
     repo_path = clone_repository(repo_url)
 
-    # build index only if it does not exist
+    # Build index only if missing
     if not os.path.exists(f"{vector_db_path}/index.faiss"):
 
         print("Building vector database for repo:", repo_name)
@@ -60,13 +58,13 @@ def ask_question(data: AskRequest):
     else:
         print("Using cached vector database for repo:", repo_name)
 
-    # retrieve relevant code chunks
+    # Retrieve relevant code
     results = search_code(question, vector_db_path)
 
-    # generate answer using LLM
+    # Generate LLM answer
     answer = generate_answer(question, results)
 
-    # extract source file paths
+    # Extract source files
     sources = list({r["path"] for r in results})
 
     return {
