@@ -1,9 +1,10 @@
 fastapi
 uvicorn
-langchain
-openai
 faiss-cpu
-python-dotenv
+groq
 gitpython
-tiktoken
-sentence-transformers
+scikit-learn
+python-dotenv
+pydantic
+streamlit
+requests
