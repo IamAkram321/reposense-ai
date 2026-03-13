@@ -1,6 +1,8 @@
 import streamlit as st
 import requests
 
+API_URL = "https://reposense-ai.onrender.com/ask"
+
 st.title("RepoSense AI")
 
 st.write("Ask questions about any GitHub repository")
@@ -14,7 +16,7 @@ if st.button("Ask RepoSense"):
     if repo_url and question:
 
         response = requests.post(
-            "http://127.0.0.1:8000/ask",
+            API_URL,
             json={
                 "repo_url": repo_url,
                 "question": question
@@ -28,5 +30,4 @@ if st.button("Ask RepoSense"):
         st.write(result["answer"])
 
     else:
-
-        st.warning("Please provide both repo URL and question")
+        st.warning("Please provide repo URL and question")
