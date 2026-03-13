@@ -15,7 +15,8 @@ A brief description of what this project does and who it's for
 ![FAISS](https://img.shields.io/badge/FAISS-Vector_DB-00A4EF?style=for-the-badge&logo=microsoft&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-22C55E?style=for-the-badge)
 
-[**Live Demo**](https://reposense-ai.streamlit.app/) ·
+[**Live Demo**](https://reposense-ai.streamlit.app) ·
+[**Live API**](https://reposense-ai.onrender.com/docs) ·
 
 ---
 ## Demo UI

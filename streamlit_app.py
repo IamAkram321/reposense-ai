@@ -15,26 +15,41 @@ st.markdown("### Example Questions")
 
 examples = [
     "How does Flask routing work?",
-    "How are requests handled in this repo?",
-    "Where is the authentication logic?",
-    "Explain the architecture of this project."
+    "Where is request handling implemented?",
+    "Explain the architecture of this repo",
+    "How are routes registered?"
 ]
 
-question = st.selectbox("Choose a question", examples)
+selected_example = st.selectbox(
+    "Choose an example question (optional)",
+    [""] + examples
+)
+
+custom_question = st.text_input(
+    "Or type your own question"
+)
+
+question = custom_question if custom_question else selected_example
+
 
 if st.button("Ask RepoSense"):
 
-    with st.spinner("Analyzing repository..."):
+    if repo_url and question:
 
-        response = requests.post(
-            API_URL,
-            json={
-                "repo_url": repo_url,
-                "question": question
-            }
-        )
+        with st.spinner("Analyzing repository..."):
 
-        result = response.json()
+            response = requests.post(
+                API_URL,
+                json={
+                    "repo_url": repo_url,
+                    "question": question
+                }
+            )
 
-        st.subheader("Answer")
-        st.write(result["answer"])
+            result = response.json()
+
+            st.subheader("Answer")
+            st.write(result["answer"])
+
+    else:
+        st.warning("Please enter a question.")
