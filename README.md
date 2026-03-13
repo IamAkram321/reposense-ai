@@ -1,3 +1,8 @@
+
+# Project Title
+
+A brief description of what this project does and who it's for
+
 # 🔍 RepoSense AI
 
 ### Ask natural language questions about any GitHub repository.
@@ -10,9 +15,12 @@
 ![FAISS](https://img.shields.io/badge/FAISS-Vector_DB-00A4EF?style=for-the-badge&logo=microsoft&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-22C55E?style=for-the-badge)
 
-[**Live Demo**](#) · [**API Docs**](#-quick-start) · [**Report a Bug**](https://github.com/yourusername/reposense-ai/issues) · [**Request Feature**](https://github.com/yourusername/reposense-ai/issues)
+[**Live Demo**](https://reposense-ai.streamlit.app/) ·
 
 ---
+## Demo UI
+
+![Demo](assets/repo.png)
 
 ## 🧠 What is RepoSense AI?
 
@@ -234,7 +242,7 @@ curl -X POST http://localhost:8000/ask \
 - [x] Groq / Llama-3 integration
 - [x] Multi-repo caching
 - [x] **Streaming LLM responses** (SSE)
-- [ ] **Web UI** — chat interface for non-API users
+- [x] **Web UI** — chat interface for non-API users
 - [ ] **Private repository support** (GitHub token auth)
 - [ ] **Background indexing** for large repos
 - [ ] **Multi-language embeddings** (replace TF-IDF with dense vectors)
