@@ -1,8 +1,3 @@
-
-# Project Title
-
-A brief description of what this project does and who it's for
-
 # 🔍 RepoSense AI
 
 ### Ask natural language questions about any GitHub repository.
@@ -172,14 +167,14 @@ Each request flows through a fully automated RAG pipeline — from a GitHub URL 
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/yourusername/reposense-ai.git
-cd reposense-ai
+git clone https://github.com/IamAkram321/reposense-ai
+cd repo-sense-ai
 
 # 2. Install dependencies
 pip install -r requirements.txt
 
 # 3. Set your API key
-export GROQ_API_KEY=your_key_here
+set GROQ_API_KEY=your_key_here
 
 # 4. Start the server
 uvicorn app.main:app --reload
@@ -238,7 +233,7 @@ curl -X POST http://localhost:8000/ask \
 - [x] FAISS vector indexing
 - [x] Groq / Llama-3 integration
 - [x] Multi-repo caching
-- [ ] **Streaming LLM responses** (SSE)
+- [x] **Streaming LLM responses** (SSE)
 - [ ] **Web UI** — chat interface for non-API users
 - [ ] **Private repository support** (GitHub token auth)
 - [ ] **Background indexing** for large repos
@@ -259,16 +254,6 @@ git push origin feature/your-feature-name
 # Open a PR 🎉
 ```
 
----
-
-## 👤 Author
-
-**MD Akram** — Software Developer · Backend · AI Systems
-
-[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/yourusername)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/yourusername)
-
----
 
 ## 📄 License
 
