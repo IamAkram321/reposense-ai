@@ -1,3 +1,12 @@
+import os
+from groq import Groq
+from dotenv import load_dotenv
+
+load_dotenv()
+
+client = Groq(api_key=os.getenv("GROQ_API_KEY"))
+
+
 def build_prompt(query, retrieved_chunks):
 
     context = ""
@@ -11,7 +20,7 @@ def build_prompt(query, retrieved_chunks):
     prompt = f"""
 You are a senior software engineer helping understand a codebase.
 
-Answer the following question based on the provided code snippets.
+Answer the question using the provided code snippets.
 
 Question:
 {query}
@@ -24,11 +33,16 @@ Explain clearly where the logic exists and how it works.
 
     return prompt
 
+
 def generate_answer(query, retrieved_chunks):
 
     prompt = build_prompt(query, retrieved_chunks)
 
-    # For now we will just return the prompt
-    # Later we will connect to an LLM
+    response = client.chat.completions.create(
+        model="llama-3.1-8b-instant",
+        messages=[
+            {"role": "user", "content": prompt}
+        ]
+    )
 
-    return prompt
+    return response.choices[0].message.content

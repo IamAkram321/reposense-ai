@@ -5,6 +5,6 @@ query = "how does react handle hooks"
 
 results = search_code(query)
 
-response = generate_answer(query, results)
+answer = generate_answer(query, results)
 
-print(response)
+print(answer)
