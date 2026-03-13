@@ -63,7 +63,21 @@ def build_vector_store(documents):
     return index, vectorizer
 
 
-def save_vector_store(index, vectorizer, documents):
+def save_vector_store(index, vectorizer, documents, vector_db_path):
+
+    import os
+    import pickle
+    import faiss
+
+    os.makedirs(vector_db_path, exist_ok=True)
+
+    faiss.write_index(index, f"{vector_db_path}/index.faiss")
+
+    with open(f"{vector_db_path}/vectorizer.pkl", "wb") as f:
+        pickle.dump(vectorizer, f)
+
+    with open(f"{vector_db_path}/documents.pkl", "wb") as f:
+        pickle.dump(documents, f)
 
     os.makedirs("data/vector_db", exist_ok=True)
 
