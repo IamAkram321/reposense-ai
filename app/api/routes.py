@@ -60,14 +60,18 @@ def ask_question(data: AskRequest):
     else:
         print("Using cached vector database for repo:", repo_name)
 
-    # retrieve code
+    # retrieve relevant code chunks
     results = search_code(question, vector_db_path)
 
-    # generate answer
+    # generate answer using LLM
     answer = generate_answer(question, results)
+
+    # extract source file paths
+    sources = list({r["path"] for r in results})
 
     return {
         "repository": repo_url,
         "question": question,
-        "answer": answer
+        "answer": answer,
+        "sources": sources
     }

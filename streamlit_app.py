@@ -46,3 +46,8 @@ if question:
         result = response.json()
 
     st.chat_message("assistant").write(result["answer"])
+
+if "sources" in result:
+    st.markdown("### 📂 Sources")
+    for src in result["sources"]:
+        st.code(src)
