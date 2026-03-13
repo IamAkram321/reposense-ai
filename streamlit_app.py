@@ -13,45 +13,20 @@ repo_url = st.text_input(
     "https://github.com/pallets/flask"
 )
 
-st.markdown("### Quick Actions")
+if "messages" not in st.session_state:
+    st.session_state.messages = []
 
-col1, col2 = st.columns(2)
+# display chat history
+for msg in st.session_state.messages:
+    st.chat_message(msg["role"]).write(msg["content"])
 
-with col1:
-    explain_arch = st.button("Explain Repository Architecture")
-
-with col2:
-    list_modules = st.button("List Main Modules")
-
-examples = [
-    "How does request handling work?",
-    "How does routing work?",
-    "Where is authentication implemented?",
-    "Explain the architecture of this repository"
-]
-
-selected_example = st.selectbox(
-    "Example Questions",
-    [""] + examples
-)
-
-user_input = st.chat_input("Ask your own question")
-
-question = None
-
-if user_input:
-    question = user_input
-
-elif selected_example:
-    question = selected_example
-
-elif explain_arch:
-    question = "Explain the architecture of this repository and main components"
-
-elif list_modules:
-    question = "List the main modules of this repository and what they do"
+question = st.chat_input("Ask a question about the repository")
 
 if question:
+
+    st.session_state.messages.append(
+        {"role": "user", "content": question}
+    )
 
     st.chat_message("user").write(question)
 
@@ -67,9 +42,17 @@ if question:
 
         result = response.json()
 
-    st.chat_message("assistant").write(result["answer"])
+    answer = result["answer"]
+
+    st.chat_message("assistant").write(answer)
+
+    st.session_state.messages.append(
+        {"role": "assistant", "content": answer}
+    )
 
     if "sources" in result:
+
         st.markdown("### 📂 Sources")
+
         for src in result["sources"]:
             st.code(src)
